@@ -1,0 +1,275 @@
+[11:55 am, 29/08/2023] Harif❤️‍🔥: Prolog program to sum the integers from 1 to n:
+
+prolog
+Copy
+sum(0, 0).
+sum(N, Sum) :-
+    N > 0,
+    N1 is N - 1,
+    sum(N1, Sum1),
+    Sum is Sum1 + N.
+[0:00 pm, 29/08/2023] Harif❤️‍🔥: :- dynamic person/2. % Dynamic predicate for storing person/2 facts
+
+% Add a person to the database
+add_person(Name, DOB) :-
+    \+ person(Name, _), % Check if person does not already exist
+    assertz(person(Name, DOB)),
+    write('Person added successfully.'), nl.
+
+% Retrieve the DOB of a person
+get_dob(Name, DOB) :-
+    person(Name, DOB),
+    write('DOB of '), write(Name), write(' is '), write(DOB), nl.
+
+% Update the DOB of a person
+update_dob(Name, NewDOB) :-
+    retract(person(Name, _)),
+    assertz(person(Name, NewDOB)),
+    write('DOB of '), write(Name), write(' updated successfully.'), nl.
+
+% Remove a person from the database
+remove_person(Name) :-
+    retract(person(Name, _)),
+    write('Person removed successfully.'), nl.
+
+% List all persons in the…
+[7:02 pm, 31/08/2023] Harif❤️‍🔥: why  error coming like cannot import name 'CatBoostClassifier' from partially initialized module 'catboost' (most likely due to a circular import)
+[8:06 pm, 31/08/2023] Harif❤️‍🔥: % Facts: name and date of birth
+dob(john, '1990-05-15').
+dob(sarah, '1985-10-03').
+dob(michael, '2002-02-20').
+dob(lisa, '1978-08-12').
+
+% Rules: Queries for retrieving information
+name(Name) :- dob(Name, _).
+dob(Name, DateOfBirth) :- dob(Name, DateOfBirth).
+[8:07 pm, 31/08/2023] Harif❤️‍🔥: 2.nd prolog
+[8:50 pm, 31/08/2023] Harif❤️‍🔥: % Facts
+student(john).
+student(sarah).
+student(alex).
+
+teacher(mary).
+teacher(david).
+teacher(emily).
+
+subject(math).
+subject(english).
+subject(physics).
+
+sub_code(math, m101).
+sub_code(english, e201).
+sub_code(physics, p301).
+
+% Relationships
+teaches(mary, math).
+teaches(david, english).
+teaches(emily, physics).
+
+enrolled(john, math).
+enrolled(john, english).
+enrolled(sarah, physics).
+enrolled(alex, math).
+enrolled(alex, physics).
+
+% Rules
+student_teacher_sub_code(Student, Teacher, SubCode) :-
+    enrolled(Student, Sub),
+    teaches(Teacher, Sub),
+    sub_code(Sub, SubCode).
+[8:50 pm, 31/08/2023] Harif❤️‍🔥: 3.prolog
+[8:52 pm, 31/08/2023] Harif❤️‍🔥: % Facts
+planet(mercury, 0.39, 0.06).
+planet(venus, 0.72, 0.82).
+planet(earth, 1, 1).
+planet(mars, 1.52, 0.11).
+planet(jupiter, 5.2, 317.8).
+planet(saturn, 9.58, 95.2).
+planet(uranus, 19.22, 14.6).
+planet(neptune, 30.05, 17.2).
+
+% Rules
+small_planet(Name) :-
+    planet(Name, Distance, Mass),
+    Distance < 1.5,
+    Mass < 1.
+
+large_planet(Name) :-
+    planet(Name, Distance, Mass),
+    Distance > 5,
+    Mass > 100.
+
+% Queries
+% To find planets with a distance less than 1.5 AU and mass less than 1 Earth mass:
+% ?- small_planet(Name).
+
+% To find planets with a distance greater than 5 AU and mass greater than 100 Earth masses:
+% ?- large_planet(Name).
+[8:52 pm, 31/08/2023] Harif❤️‍🔥: 4.PROLOG
+[8:53 pm, 31/08/2023] Harif❤️‍🔥: % Define the Hanoi predicate with 4 arguments: number of disks, source peg, target peg, and auxiliary peg.
+hanoi(1, Source, Target, _) :-
+    write('Move disk 1 from '), write(Source), write(' to '), write(Target), nl.
+
+hanoi(N, Source, Target, Auxiliary) :-
+    N > 1,
+    N1 is N - 1,
+    hanoi(N1, Source, Auxiliary, Target), % Move N-1 disks from Source to Auxiliary peg
+    write('Move disk '), write(N), write(' from '), write(Source), write(' to '), write(Target), nl,
+    hanoi(N1, Auxiliary, Target, Source). % Move N-1 disks from Auxiliary to Target peg
+
+% Query to solve Tower of Hanoi with 3 disks, source peg A, target peg C, and auxiliary peg B.
+% ?- hanoi(3, 'A', 'C', 'B').
+[8:54 pm, 31/08/2023] Harif❤️‍🔥: % Facts: defining the relationships
+parent(john, jim).
+parent(john, emma).
+parent(mary, jim).
+parent(mary, emma).
+parent(jim, sam).
+parent(emma, lily).
+
+% Rules: defining the relationships based on gender
+male(john).
+male(jim).
+male(sam).
+
+female(mary).
+female(emma).
+female(lily).
+
+% Rules: defining ancestor and descendant relationships
+ancestor(X, Y) :- parent(X, Y).
+ancestor(X, Y) :- parent(X, Z), ancestor(Z, Y).
+
+descendant(X, Y) :- parent(Y, X).
+descendant(X, Y) :- parent(Y, Z), descendant(X, Z).
+
+% Rules: defining sibling relationship
+sibling(X, Y) :- parent(Z, X), parent(Z, Y), X \= Y.
+
+% Rules: defining aunt and uncle relationships
+aunt_or_uncle(X, Y) :- sibling(X, Z), parent(Z, Y).
+aunt(X, Y) :- female(X), aunt_or_uncle(X, Y).
+uncle(X, Y) :- male(X), aunt_or_uncle(X, Y).
+[8:54 pm, 31/08/2023] Harif❤️‍🔥: % To find all descendants of a person:
+?- descendant(X, john).
+
+% To find all siblings of a person:
+?- sibling(X, emma).
+
+% To find all aunts of a person:
+?- aunt(X, lily).
+[8:55 pm, 31/08/2023] Harif❤️‍🔥: % Facts: birds and their flying ability
+bird(penguin).
+bird(sparrow).
+bird(ostrich).
+bird(hawk).
+
+can_fly(sparrow).
+can_fly(hawk).
+
+% Rule: defining the predicate for flying
+fly(Bird) :-
+    bird(Bird),
+    can_fly(Bird),
+    write(Bird), write(' can fly.'), nl.
+
+fly(Bird) :-
+    bird(Bird),
+    \+ can_fly(Bird),
+    write(Bird), write(' cannot fly.'), nl.
+[8:55 pm, 31/08/2023] Harif❤️‍🔥: % To check if a sparrow can fly:
+?- fly(sparrow).
+
+% To check if a penguin can fly:
+?- fly(penguin).
+[8:56 pm, 31/08/2023] Harif❤️‍🔥: % Facts: Diseases and their associated diet plans
+disease(diabetes).
+disease(hypertension).
+disease(high_cholesterol).
+disease(obesity).
+
+diet_plan(diabetes, 'Low-carb diet with portion control').
+diet_plan(hypertension, 'DASH diet with reduced sodium intake').
+diet_plan(high_cholesterol, 'Heart-healthy diet with low saturated fat').
+diet_plan(obesity, 'Calorie-restricted balanced diet with regular exercise').
+
+% Rule: Suggesting a diet plan based on disease
+suggest_diet(Disease) :-
+    disease(Disease),
+    diet_plan(Disease, Diet),
+    write('For '), write(Disease), write(', it is recommended to follow:'), nl,
+    write(Diet), nl.
+[8:56 pm, 31/08/2023] Harif❤️‍🔥: % To suggest a diet plan for diabetes:
+?- suggest_diet(diabetes).
+
+% To suggest a diet plan for obesity:
+?- suggest_diet(obesity).
+[8:57 pm, 31/08/2023] Harif❤️‍🔥: % Initial state: monkey at middle, box at left, banana on ceiling
+at(monkey, middle, on_floor).
+at(box, left, on_floor).
+at(banana, middle, on_ceiling).
+
+% Actions the monkey can take
+move(monkey, walk_left).
+move(monkey, walk_right).
+move(monkey, climb_box).
+move(monkey, push_box).
+
+% Rules for performing actions
+% Monkey can grab the banana if it's on the same spot
+can_grab(monkey, banana) :- at(monkey, Spot, on_floor), at(banana, Spot, on_ceiling).
+
+% Monkey can climb the box if it's on the same spot
+can_climb(monkey, box) :- at(monkey, Spot, on_floor), at(box, Spot, on_floor).
+
+% Monkey can push the box from left to right and vice versa
+can_push(monkey, box) :- at(monkey, middle, on_floor), at(box, left, on_floor).
+[8:57 pm, 31/08/2023] Harif❤️‍🔥: can_push(monkey, box) :- at(monkey, middle, on_floor), at(box, right, on_floor).
+
+% Rules to perform each action and update the state
+perform_action(State, move(monkey, walk_left), NewState) :-
+    at(monkey, middle, on_floor),
+    NewState = [at(monkey, left, on_floor)|State].
+
+perform_action(State, move(monkey, walk_right), NewState) :-
+    at(monkey, left, on_floor),
+    NewState = [at(monkey, middle, on_floor)|State].
+
+perform_action(State, move(monkey, climb_box), NewState) :-
+    can_climb(monkey, box),
+    NewState = [at(monkey, Spot, on_box), at(box, Spot, on_floor)|State].
+
+perform_action(State, move(monkey, push_box), NewState) :-
+    can_push(monkey, box),
+    at(monkey, middle, on_floor),
+    at(box, left, on_floor),
+    NewState = [at(monkey, middle, on_box), at(box, right, on_floor)|State].
+
+% Recursive Rule to solve the problem
+solve(State) :- can_grab(monkey, banana), write('Monkey grabbed the banana!').
+solve(State) :-
+    perform_action(State, Move, NewState),
+    solve(NewState),
+    write('Monkey '), write(Move), nl.
+
+% Query to solve the Monkey and Banana problem
+% ?- solve([at(monkey, middle, on_floor), at(box, left, on_floor), at(banana, middle, on_ceiling)]).
+[8:58 pm, 31/08/2023] Harif❤️‍🔥: % Facts: fruits and their colors
+fruit(apple, red).
+fruit(banana, yellow).
+fruit(grape, purple).
+fruit(orange, orange).
+fruit(strawberry, red).
+fruit(blueberry, blue).
+fruit(pear, green).
+
+% Rules: querying for fruits of a specific color
+fruits_of_color(Color, Fruits) :-
+    findall(Fruit, (fruit(Fruit, Color)), Fruits).
+
+% Queries
+% To find fruits that are red:
+% ?- fruits_of_color(red, Fruits).
+
+% To find fruits that are green:
+% ?- fruits_of_color(green, Fruits).
